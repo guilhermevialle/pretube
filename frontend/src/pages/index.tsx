@@ -1,11 +1,15 @@
-import { Link } from '@nextui-org/link'
-import { button as buttonStyles } from '@nextui-org/theme'
-
+import Disclaimer from '@/components/disclaimer'
 import { GithubIcon } from '@/components/icons'
+import OptionsWrapper from '@/components/options-wrapper'
 import { subtitle, title } from '@/components/primitives'
 import SearchInput from '@/components/search-input'
 import { siteConfig } from '@/config/site'
 import DefaultLayout from '@/layouts/default'
+import { Link } from '@nextui-org/link'
+import { button as buttonStyles } from '@nextui-org/theme'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
+const queryClient = new QueryClient()
 
 export default function IndexPage() {
   return (
@@ -43,10 +47,11 @@ export default function IndexPage() {
             GitHub
           </Link>
         </div>
-
-        <div className='max-w-lg mt-8'>
-          <SearchInput />
-        </div>
+        <SearchInput className='w-full lg:w-2/5 mt-8' />
+        <QueryClientProvider client={queryClient}>
+          <OptionsWrapper />
+        </QueryClientProvider>
+        <Disclaimer />
       </section>
     </DefaultLayout>
   )

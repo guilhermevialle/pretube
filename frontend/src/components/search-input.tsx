@@ -1,10 +1,14 @@
+import { videoInfoAtom } from '@/contexts/video-info'
+import { getVideoByLink } from '@/services/api'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@nextui-org/button'
 import { Input } from '@nextui-org/input'
-import { useState } from 'react'
+import { useAtom } from 'jotai'
+import { HTMLAttributes, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { twMerge } from 'tailwind-merge'
 import { z } from 'zod'
 
 const schema = z.object({
@@ -13,7 +17,9 @@ const schema = z.object({
 
 type Schema = z.infer<typeof schema>
 
-export default function SearchInput() {
+interface SearchInputProps extends HTMLAttributes<HTMLFormElement> {}
+
+export default function SearchInput({ ...props }: SearchInputProps) {
   const {
     register,
     handleSubmit,
@@ -24,23 +30,34 @@ export default function SearchInput() {
   })
 
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [, setVideoInfo] = useAtom(videoInfoAtom)
 
-  const onSubmit = (data: Schema) => {
-    alert(data.query)
-    setIsLoading(true)
-    reset()
+  const onSubmit = async (data: Schema) => {
+    const { query } = data
+
+    if (query) {
+      setIsLoading(true)
+      const data = await getVideoByLink(query)
+      setIsLoading(false)
+      setVideoInfo(data)
+    }
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='w-full flex gap-x-2'>
+    <form
+      {...props}
+      onSubmit={handleSubmit(onSubmit)}
+      className={twMerge('w-full flex gap-x-2 flex-shrink-0', props.className)}
+    >
       <Input
         {...register('query')}
-        className='w-72'
+        className='w-full flex-auto'
         size='lg'
         type='text'
         placeholder='Paste a link or search for a video'
         isInvalid={Boolean(errors.query?.message)}
         errorMessage={errors.query?.message}
+        autoComplete='off'
       />
 
       <Button
