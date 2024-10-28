@@ -1,32 +1,46 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from '@nextui-org/button'
 import { Input } from '@nextui-org/input'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+
+const schema = z.object({
+  query: z.string().min(1, 'Must have at least 1 char.'),
+})
+
+type Schema = z.infer<typeof schema>
 
 export default function SearchInput() {
-  const [query, setQuery] = useState<string>('')
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<Schema>({
+    resolver: zodResolver(schema),
+  })
+
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+  const onSubmit = (data: Schema) => {
+    alert(data.query)
     setIsLoading(true)
-
-    try {
-    } catch (error) {}
-
-    setIsLoading(false)
+    reset()
   }
 
   return (
-    <form onSubmit={handleSubmit} className='w-full flex gap-x-4'>
+    <form onSubmit={handleSubmit(onSubmit)} className='w-full flex gap-x-2'>
       <Input
-        onChange={(e) => setQuery(e.target.value)}
+        {...register('query')}
         className='w-72'
         size='lg'
-        value={query}
         type='text'
-        placeholder='Copy and paste some link or search...'
+        placeholder='Paste a link or search for a video'
+        isInvalid={Boolean(errors.query?.message)}
+        errorMessage={errors.query?.message}
       />
 
       <Button
@@ -34,10 +48,11 @@ export default function SearchInput() {
         className='h-12 rounded-2xl'
         size='sm'
         color='primary'
+        variant='flat'
         disabled={isLoading}
         isLoading={isLoading}
       >
-        {!isLoading && <FontAwesomeIcon icon={faSearch} size='lg' />}
+        {!isLoading && <FontAwesomeIcon icon={faSearch} size='xl' />}
       </Button>
     </form>
   )
