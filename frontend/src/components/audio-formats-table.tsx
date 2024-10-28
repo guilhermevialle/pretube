@@ -1,6 +1,4 @@
 import { formatUnit } from '@/utils/format-unit'
-import { faArrowDown } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button } from '@nextui-org/button'
 import { Code } from '@nextui-org/code'
 import {
@@ -11,6 +9,7 @@ import {
   TableHeader,
   TableRow,
 } from '@nextui-org/table'
+import { LuDownload } from 'react-icons/lu'
 
 const audioColumns = ['Type', 'Bitrate', 'Size', 'Save']
 
@@ -44,8 +43,8 @@ export default function AudioFormatsTable({
                 <Code color='default'>{formatUnit(format.size)}</Code>
               </TableCell>
               <TableCell className='text-center'>
-                <Button color='primary' size='sm' variant='ghost'>
-                  <FontAwesomeIcon icon={faArrowDown} />
+                <Button color='primary' size='sm' variant='light'>
+                  <LuDownload className='text-xl' />
                 </Button>
               </TableCell>
             </TableRow>

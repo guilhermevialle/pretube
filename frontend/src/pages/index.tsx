@@ -5,6 +5,8 @@ import { subtitle, title } from '@/components/primitives'
 import SearchInput from '@/components/search-input'
 import { siteConfig } from '@/config/site'
 import DefaultLayout from '@/layouts/default'
+import { faLinkedin } from '@fortawesome/free-brands-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from '@nextui-org/link'
 import { button as buttonStyles } from '@nextui-org/theme'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -36,6 +38,7 @@ export default function IndexPage() {
             })}
             href={siteConfig.links.docs}
           >
+            <FontAwesomeIcon icon={faLinkedin} size='lg' />
             Linkedin
           </Link>
           <Link
