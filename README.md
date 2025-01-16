@@ -1,6 +1,6 @@
 # Pretube: Baixador de Vídeos do YouTube
 
-**Pretube** é uma ferramenta poderosa e eficiente para baixar vídeos do YouTube em vários formatos, proporcionando uma experiência prática e intuitiva para os usuários.
+**Pretube** é uma ferramenta para baixar vídeos do YouTube em vários formatos, proporcionando uma experiência prática e intuitiva para os usuários.
 
 ## 🌟 **Recursos Principais**
 - Baixe vídeos do YouTube em diversos formatos populares:
